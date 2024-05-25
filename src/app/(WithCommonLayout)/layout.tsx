@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { userInfo } from "./actions/auth";
+import Footer from "../components/pages/shared/Footer";
+import NavArea from "../components/pages/shared/Navbar";
 
 export const metadata: Metadata = {
   title: "Travel Buddy",
@@ -14,8 +16,8 @@ export default async function RootLayout({
   const user = await userInfo();
   return (
     <div>
-      <NavBar user={user} />
-      <div className="mx-auto container">{children}</div>
+      <NavArea />
+      <div>{children}</div>
       <Footer />
     </div>
   );
