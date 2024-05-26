@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { userInfo } from "./actions/auth";
 import Footer from "../components/pages/shared/Footer";
 import NavArea from "../components/pages/shared/Navbar";
+import Hero from "./sections/Hero";
 
 export const metadata: Metadata = {
   title: "Apollo Gears",
@@ -16,10 +17,7 @@ export default async function RootLayout({
   //   const user = await userInfo();
   return (
     <div>
-      {/* <NavBar user={user} /> */}
-      <NavArea />
-      <div>{children}</div>
-      <Footer />
+      <Hero></Hero>
     </div>
   );
 }

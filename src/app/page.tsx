@@ -1,7 +1,9 @@
+import Hero from "./(WithCommonLayout)/sections/Hero";
+
 export default function Home() {
   return (
     <main>
-      <h2>hello from main</h2>
+      <Hero></Hero>
     </main>
   );
 }
