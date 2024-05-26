@@ -1,6 +1,7 @@
 "use client";
 import heroAnimation from "../../../../public/hero-section.json";
 import { useLottie } from "lottie-react";
+import { HiSearch } from "react-icons/hi";
 
 const Hero = () => {
   const options = {
@@ -32,7 +33,7 @@ const Hero = () => {
             </p>
             <h2 className="mb-6 max-w-lg text-5xl font-bold leading-snug tracking-tight text-white sm:text-7xl sm:leading-snug">
               Find Your Perfect Travel
-              <span className="my-1 inline-block border-b-8 border-white bg-orange-400 px-4 font-bold text-white">
+              <span className="my-1 inline-block border-b-8 border-white bg-[#1D4ED8] px-4 font-bold text-white">
                 Buddy!
               </span>
             </h2>
@@ -40,6 +41,25 @@ const Hero = () => {
               We allows users to share their travel plans, search for trips, and
               find like-minded individuals to join them.
             </p>
+          </div>
+          <div className="mx-auto mt-12 mb-2 max-w-xl sm:rounded-xl sm:border sm:border-gray-100 sm:bg-white  sm:shadow">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center justify-between gap-1 text-gray-500 sm:w-full">
+                <input
+                  name="email"
+                  id="email"
+                  placeholder="Find Your Trip"
+                  className="w-full cursor-text rounded-xl border-2 py-4 pr-4 pl-3 text-base outline-none transition-all duration-200 ease-in-out sm:border-0 focus:border-transparent focus:ring"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="group flex items-center justify-center rounded-xl bg-blue-700 px-6 py-4 text-white transition"
+                >
+                  <HiSearch size={24} />
+                </button>
+              </div>
+            </div>
           </div>
           <div className="mt-10 flex flex-col items-center md:flex-row">
             <a
@@ -71,6 +91,7 @@ const Hero = () => {
             </a>
           </div>
         </div>
+
         <div className="relative hidden lg:ml-32 lg:block lg:w-1/2">{View}</div>
       </div>
     </div>

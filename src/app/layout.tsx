@@ -27,9 +27,7 @@ export default async function RootLayout({
       <body>
         <Providers>
           <div className=" mx-auto container">
-            <NavArea />
             <div>{children}</div>
-            <Footer />
           </div>
         </Providers>
       </body>
