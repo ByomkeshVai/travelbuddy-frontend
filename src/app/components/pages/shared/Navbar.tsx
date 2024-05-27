@@ -57,7 +57,7 @@ export default function NavArea() {
         </NavbarContent>
         <NavbarContent justify="end">
           <NavbarItem>
-            <Button as={Link} color="primary" href="#" variant="flat">
+            <Button color="primary" href="#" variant="flat">
               <Link href="/login">Login / Sign Up</Link>
             </Button>
           </NavbarItem>

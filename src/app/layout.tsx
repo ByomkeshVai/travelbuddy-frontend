@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Footer from "../app/components/pages/shared/Footer";
-import NavArea from "../app/components/pages/shared/Navbar";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { userInfo } from "os";
 import Providers from "./lib/Providers";
 
@@ -27,7 +26,7 @@ export default async function RootLayout({
       <body>
         <Providers>
           <div className=" mx-auto container">
-            <div>{children}</div>
+            <AntdRegistry>{children}</AntdRegistry>
           </div>
         </Providers>
       </body>

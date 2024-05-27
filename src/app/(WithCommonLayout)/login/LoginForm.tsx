@@ -1,49 +1,78 @@
 "use client";
 
-import { Input } from "@nextui-org/react";
-import { createRef, useEffect } from "react";
-
+import { Button } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
 import { loginUser } from "../actions/auth";
 import ActionSubmitButton from "../components/ActionSubmitButton";
+import FBForm from "../components/Form/FBForm";
+import FBDesignInput from "../components/Form/FBDesignInput";
+import FBInputPassword from "../components/Form/FBPasswordInput";
+import { useLoginMutation } from "@/app/redux/api/AuthRedux/AuthApi";
+import { useAppDispatch } from "@/app/redux/hook";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { setUser, TUser } from "@/app/redux/api/AuthRedux/AuthSlice";
+import { verifyToken } from "@/app/utils/verifyToken";
 
 export default function LoginForm() {
   const router = useRouter();
-  const ref = createRef<HTMLFormElement>();
-  const [state, formAction] = useFormState(loginUser, null);
-  useEffect(() => {
-    if (state && state?.success) {
-      toast.success(state?.message, { id: 1, duration: 2000 });
-      ref.current!.reset();
-      window.location.href = "/";
-      // router.push("/")
+  const [loginUser] = useLoginMutation();
+
+  const dispatch = useAppDispatch();
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastID = toast.loading("Logging In...");
+    try {
+      const userInfo = {
+        username: data.username,
+        password: data.password,
+      };
+
+      const res = await loginUser(userInfo).unwrap();
+      const user = verifyToken(res.data.token) as TUser;
+      console.log(user);
+      dispatch(setUser({ user: user, token: res.data.token }));
+
+      toast.success("Logged In", { id: toastID, duration: 2000 });
+      if (user?.role == "admin") {
+        router.push("/");
+      }
+      if (user?.role == "user") {
+        router.push("/");
+      }
+    } catch (error: any) {
+      toast.error(`${error?.data?.message}`, { id: toastID, duration: 2000 });
     }
-    if (state && !state?.success) {
-      toast.error(state?.message, { id: 1, duration: 2000 });
-    }
-  }, [state, ref]);
+  };
 
   return (
     <div>
-      <form ref={ref} action={formAction}>
-        <Input name="email" type="email" label="Email" variant="bordered" />
-        <Input
-          className="mt-3"
+      <FBForm onSubmit={onSubmit}>
+        <FBDesignInput
+          type="email"
+          label="Email"
+          name="email"
+          placeholder="Enter email"
+        ></FBDesignInput>
+        <FBInputPassword
           name="password"
-          type="password"
           label="Password"
-          variant="bordered"
-        />
-        <div className="flex justify-end text-primary">
-          <Link href="/register">if you dont have account sign Up</Link>
-        </div>
-        <div className="flex justify-end mt-3">
-          <ActionSubmitButton>login</ActionSubmitButton>
-        </div>
-      </form>
+          type="password"
+          placeholder="password"
+        ></FBInputPassword>
+
+        <Button className="w-full submit-button" htmlType="submit">
+          Login
+        </Button>
+      </FBForm>
+      <p className="text-center mt-5 fontWeight-semiboald text-14">
+        Don’t have an account?
+        <Link href="/register">
+          <span className="text-blue-primary">Sign up</span>
+        </Link>
+      </p>
     </div>
   );
 }

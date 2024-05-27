@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 const LoginPage = () => {
   return (
     <div className=" mt-24 flex justify-center items-center">
-      <Card className="w-96 ">
+      <Card className="max-w-screen-lg">
         <CardHeader className="flex justify-center">
           <div className="flex">
             <Cog />
