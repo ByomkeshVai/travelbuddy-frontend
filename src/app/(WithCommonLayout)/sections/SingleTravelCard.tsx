@@ -4,7 +4,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { BsCalendarDate } from "react-icons/bs";
 const SingleTravelCard = () => {
   return (
-    <article className="h-90 col-span-1 m-auto min-h-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:scale-105 ">
+    <div className="h-90 col-span-1 m-auto min-h-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:scale-105 ">
       <div className="block h-full w-full">
         <div className="w-full bg-white p-4">
           <p className="text-md font-medium text-indigo-500 flex items-center gap-1">
@@ -33,7 +33,7 @@ const SingleTravelCard = () => {
           </div>
         </div>
       </div>
-    </article>
+    </div>
   );
 };
 
