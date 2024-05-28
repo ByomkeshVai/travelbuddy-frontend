@@ -20,7 +20,7 @@ const FBDesignTextInput = ({
   info,
 }: TInputProps) => {
   return (
-    <div style={{ width: "full" }}>
+    <div>
       <Controller
         name={name}
         render={({ field, fieldState: { error } }) => (
@@ -29,7 +29,7 @@ const FBDesignTextInput = ({
               label ? (
                 <label
                   className={` ${
-                    error ? "text-[#F00]" : "text-[#6F6464]"
+                    error ? "text-[#0054B4]" : "text-[#0054B4]"
                   } text-[14px] font-semibold flex gap-1 items-center`}
                 >
                   {label}

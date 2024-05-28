@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { tagTypes } from "../tag-type";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.VITE_API_URL,
+  baseUrl: `http://localhost:8000/api`,
 
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {

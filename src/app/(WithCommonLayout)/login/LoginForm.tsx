@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
-import { loginUser } from "../actions/auth";
-import ActionSubmitButton from "../components/ActionSubmitButton";
 import FBForm from "../components/Form/FBForm";
 import FBDesignInput from "../components/Form/FBDesignInput";
 import FBInputPassword from "../components/Form/FBPasswordInput";
@@ -26,15 +24,13 @@ export default function LoginForm() {
     const toastID = toast.loading("Logging In...");
     try {
       const userInfo = {
-        username: data.username,
+        email: data.email,
         password: data.password,
       };
 
       const res = await loginUser(userInfo).unwrap();
-      const user = verifyToken(res.data.token) as TUser;
-      console.log(user);
+      const user = verifyToken(res.data.accessToken) as TUser;
       dispatch(setUser({ user: user, token: res.data.token }));
-
       toast.success("Logged In", { id: toastID, duration: 2000 });
       if (user?.role == "admin") {
         router.push("/");
