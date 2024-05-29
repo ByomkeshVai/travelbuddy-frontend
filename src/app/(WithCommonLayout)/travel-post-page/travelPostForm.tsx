@@ -1,43 +1,69 @@
 "use client";
-
 import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
-import { FieldValues, SubmitHandler } from "react-hook-form";
 import { uploadToImgBB } from "@/app/utils/uploadPhoto";
 import { toast } from "sonner";
+import { usePostTripMutation } from "@/app/redux/api/TripRedux/TripApi";
 
 const TravelPostForm = () => {
-  const { control, handleSubmit, setValue, watch } = useForm();
   const [fileInputs, setFileInputs] = useState([{ id: Date.now() }]);
+  const [destination, setDestination] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [type, setType] = useState("");
+  const [description, setDescription] = useState("");
+  const [photos, setPhotos] = useState<File[]>([]); // Explicitly typed as an array of File objects
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const files = data.photos;
-    const photoUrls = await Promise.all(
-      files.map(async (fileList: any[]) => {
-        const file = fileList[0];
-        return uploadToImgBB(file);
-      })
-    );
-    const formData = { ...data, photos: photoUrls };
-    console.log(formData);
-  };
+  const [postTip] = usePostTripMutation();
 
-  const addFileInput = (id: any) => {
-    const index = fileInputs.findIndex((input) => input.id === id);
-    const newFileInputs = [...fileInputs];
-    newFileInputs.splice(index + 1, 0, { id: Date.now() });
-    setFileInputs(newFileInputs);
-  };
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const photoUrls = await Promise.all(
+        photos.map(async (file) => {
+          const response = await uploadToImgBB(file);
+          return response.data.display_url;
+        })
+      );
 
-  const removeFileInput = (id: any) => {
-    if (fileInputs.length > 1) {
-      setFileInputs(fileInputs.filter((input) => input.id !== id));
-    } else {
-      toast("At least one photo is required."); // Display toast notification
+      const formData = {
+        destination,
+        startDate,
+        endDate,
+        type,
+        description,
+        photos: photoUrls,
+      };
+
+      await postTip(formData);
+      toast("Travel post created successfully!");
+    } catch (error: any) {
+      toast(
+        error.message || "An error occurred while creating the travel post."
+      );
     }
   };
 
+  const addFileInput = () => {
+    const newFileInputs = [...fileInputs, { id: Date.now() }];
+    setFileInputs(newFileInputs);
+  };
+
+  const removeFileInput = (id: number) => {
+    if (fileInputs.length > 1) {
+      setFileInputs(fileInputs.filter((input) => input.id !== id));
+    } else {
+      toast("At least one photo is required.");
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = event.target.files;
+    if (fileList) {
+      const newPhotos = Array.from(fileList);
+      setPhotos([...photos, ...newPhotos]);
+    }
+  };
   return (
     <div className="bg-black min-h-screen">
       <div className="flex flex-wrap text-slate-800">
@@ -66,94 +92,64 @@ const TravelPostForm = () => {
         <div className="flex w-full flex-col md:w-2/3">
           <div className="my-auto flex max-w-screen-md flex-col justify-center px-6 md:pl-12 pt-8 sm:pt-0 md:justify-start">
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={onSubmit}
               className="flex flex-col items-stretch pt-3 pb-8 md:pt-8"
             >
               <div className="grid gap-x-4 gap-y-3 sm:grid-cols-2 text-slate-900">
                 <label className="block">
                   <p className="mb-1 mt-2 text-sm text-gray-300">Destination</p>
-                  <Controller
-                    name="destination"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
-                        type="text"
-                        placeholder="Enter your destination"
-                      />
-                    )}
+                  <input
+                    className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                    type="text"
+                    placeholder="Enter your destination"
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
                   />
                 </label>
                 <label className="block">
                   <p className="mb-1 mt-2 text-sm text-gray-300">
                     Travel Start Date
                   </p>
-                  <Controller
-                    name="startDate"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
-                        type="date"
-                        placeholder="Enter your Travel Start Date"
-                      />
-                    )}
+                  <input
+                    className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                    type="date"
+                    placeholder="Enter your Travel Start Date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
                   />
                 </label>
                 <label className="block">
                   <p className="mb-1 mt-2 text-sm text-gray-300">
                     Travel End Date
                   </p>
-                  <Controller
-                    name="endDate"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
-                        type="date"
-                        placeholder="Enter your Travel End Date"
-                      />
-                    )}
+                  <input
+                    className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                    type="date"
+                    placeholder="Enter your Travel End Date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
                   />
                 </label>
                 <label className="block">
                   <p className="mb-1 mt-2 text-sm text-gray-300">Travel Type</p>
-                  <Controller
-                    name="type"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
-                        type="text"
-                        placeholder="Enter your Trip Type"
-                      />
-                    )}
+                  <input
+                    className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                    type="text"
+                    placeholder="Enter your Trip Type"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
                   />
                 </label>
                 <label className="block sm:col-span-2">
                   <p className="mb-1 mt-2 text-sm text-gray-300">
                     Detailed Description
                   </p>
-                  <Controller
-                    name="description"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <textarea
-                        {...field}
-                        className="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
-                        placeholder="Write your special requirements here"
-                      ></textarea>
-                    )}
-                  />
+                  <textarea
+                    className="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                    placeholder="Write your special requirements here"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
                 </label>
 
                 {fileInputs.map((input, index) => (
@@ -162,18 +158,10 @@ const TravelPostForm = () => {
                       <p className="mb-1 mt-2 text-sm text-gray-300">
                         Upload Photo {index + 1}
                       </p>
-                      <Controller
-                        name={`photos[${index}]`}
-                        control={control}
-                        defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <input
-                            {...field}
-                            type="file"
-                            className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
-                          />
-                        )}
+                      <input
+                        type="file"
+                        className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                        onChange={handleFileChange}
                       />
                     </label>
                     <div className="flex space-x-2 mt-1">
@@ -189,7 +177,7 @@ const TravelPostForm = () => {
                       <button
                         type="button"
                         className="text-blue-500"
-                        onClick={() => addFileInput(input.id)}
+                        onClick={addFileInput}
                       >
                         + Add Photo
                       </button>
@@ -197,7 +185,6 @@ const TravelPostForm = () => {
                   </div>
                 ))}
               </div>
-
               <button
                 type="submit"
                 className="mt-6 rounded-full bg-yellow-400 px-4 py-2 text-center text-base font-semibold shadow-md outline-none ring-yellow-500 ring-offset-2 transition hover:bg-yellow-400 focus:ring-2 md:w-40"

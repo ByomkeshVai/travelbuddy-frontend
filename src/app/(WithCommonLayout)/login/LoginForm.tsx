@@ -30,7 +30,7 @@ export default function LoginForm() {
 
       const res = await loginUser(userInfo).unwrap();
       const user = verifyToken(res.data.accessToken) as TUser;
-      dispatch(setUser({ user: user, token: res.data.token }));
+      dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast.success("Logged In", { id: toastID, duration: 2000 });
       if (user?.role == "admin") {
         router.push("/");

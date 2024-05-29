@@ -38,7 +38,7 @@ const RegistrationPage = () => {
         if (res) {
           const user = verifyToken(res.data.accessToken) as TUser;
 
-          dispatch(setUser({ user: user, token: res.data.token }));
+          dispatch(setUser({ user: user, token: res.data.accessToken }));
 
           if (user?.role == "admin") {
             router.push("/");
