@@ -7,6 +7,7 @@ import { SearchIcon } from "../components/SearchIcon";
 import { useGetAllTripQuery } from "@/app/redux/api/TripRedux/TripApi";
 import React from "react";
 import Loading from "../components/Loading";
+import { Pagination } from "antd";
 
 const AllTravelPage = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const AllTravelPage = () => {
     type: "",
     keywords: "",
     page: 1,
+    limit: 10,
   });
 
   const handleInputChange = (e: { target: { name: any; value: any } }) => {
@@ -24,8 +26,8 @@ const AllTravelPage = () => {
     setFilters({ ...filters, [name]: value });
   };
 
-  const handlePageChange = (newPage: any) => {
-    setFilters({ ...filters, page: newPage });
+  const handlePageChange = (page: any, pageSize: any) => {
+    setFilters({ ...filters, page, limit: pageSize });
   };
 
   const { data: allTrips, isLoading } = useGetAllTripQuery(filters);
@@ -95,6 +97,14 @@ const AllTravelPage = () => {
                 <TravelPageCard key={trip.id} trip={trip} />
               ))
             : "No Trips Available"}
+        </div>
+        <div className="flex justify-center mt-10">
+          <Pagination
+            current={filters.page}
+            pageSize={filters.limit}
+            total={allTrips?.totalCount || 0}
+            onChange={handlePageChange}
+          />
         </div>
       </section>
     </div>
