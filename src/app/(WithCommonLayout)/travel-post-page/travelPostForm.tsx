@@ -1,23 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { uploadToImgBB } from "@/app/utils/uploadPhoto";
 import { toast } from "sonner";
 import { usePostTripMutation } from "@/app/redux/api/TripRedux/TripApi";
 
 const TravelPostForm = () => {
-  const [fileInputs, setFileInputs] = useState([{ id: Date.now() }]);
-  const [destination, setDestination] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [type, setType] = useState("");
-  const [description, setDescription] = useState("");
-  const [photos, setPhotos] = useState<File[]>([]); // Explicitly typed as an array of File objects
+  const [fileInputs, setFileInputs] = React.useState([{ id: Date.now() }]);
+  const [destination, setDestination] = React.useState("");
+  const [startDate, setStartDate] = React.useState("");
+  const [endDate, setEndDate] = React.useState("");
+  const [type, setType] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [photos, setPhotos] = React.useState<File[]>([]);
 
   const [postTip] = usePostTripMutation();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    // Validate all fields
+    if (
+      !destination ||
+      !startDate ||
+      !endDate ||
+      !type ||
+      !description ||
+      photos.length === 0
+    ) {
+      toast("All fields are required and at least one photo must be uploaded.");
+      return;
+    }
+
+    // Validate date range
+    if (new Date(endDate) < new Date(startDate)) {
+      toast("End date cannot be earlier than start date.");
+      return;
+    }
+
     try {
       const photoUrls = await Promise.all(
         photos.map(async (file) => {
@@ -37,6 +57,15 @@ const TravelPostForm = () => {
 
       await postTip(formData);
       toast("Travel post created successfully!");
+
+      // Reset form fields
+      setDestination("");
+      setStartDate("");
+      setEndDate("");
+      setType("");
+      setDescription("");
+      setPhotos([]);
+      setFileInputs([{ id: Date.now() }]);
     } catch (error: any) {
       toast(
         error.message || "An error occurred while creating the travel post."
@@ -64,6 +93,7 @@ const TravelPostForm = () => {
       setPhotos([...photos, ...newPhotos]);
     }
   };
+
   return (
     <div className="bg-black min-h-screen">
       <div className="flex flex-wrap text-slate-800">
@@ -104,6 +134,7 @@ const TravelPostForm = () => {
                     placeholder="Enter your destination"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
+                    required
                   />
                 </label>
                 <label className="block">
@@ -116,6 +147,7 @@ const TravelPostForm = () => {
                     placeholder="Enter your Travel Start Date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
+                    required
                   />
                 </label>
                 <label className="block">
@@ -128,6 +160,7 @@ const TravelPostForm = () => {
                     placeholder="Enter your Travel End Date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
+                    required
                   />
                 </label>
                 <label className="block">
@@ -138,6 +171,7 @@ const TravelPostForm = () => {
                     placeholder="Enter your Trip Type"
                     value={type}
                     onChange={(e) => setType(e.target.value)}
+                    required
                   />
                 </label>
                 <label className="block sm:col-span-2">
@@ -149,6 +183,7 @@ const TravelPostForm = () => {
                     placeholder="Write your special requirements here"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    required
                   ></textarea>
                 </label>
 
@@ -162,6 +197,7 @@ const TravelPostForm = () => {
                         type="file"
                         className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
                         onChange={handleFileChange}
+                        required={photos.length === 0} // Ensure at least one photo is uploaded
                       />
                     </label>
                     <div className="flex space-x-2 mt-1">
@@ -185,6 +221,7 @@ const TravelPostForm = () => {
                   </div>
                 ))}
               </div>
+
               <button
                 type="submit"
                 className="mt-6 rounded-full bg-yellow-400 px-4 py-2 text-center text-base font-semibold shadow-md outline-none ring-yellow-500 ring-offset-2 transition hover:bg-yellow-400 focus:ring-2 md:w-40"
