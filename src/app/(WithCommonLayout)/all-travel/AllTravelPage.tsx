@@ -4,9 +4,38 @@ import TravelPageCard from "./TravelPageCard";
 import { SiTripdotcom } from "react-icons/si";
 import { useRouter } from "next/navigation";
 import { SearchIcon } from "../components/SearchIcon";
+import { useGetAllTripQuery } from "@/app/redux/api/TripRedux/TripApi";
+import React from "react";
+import Loading from "../components/Loading";
 
 const AllTravelPage = () => {
   const router = useRouter();
+  const [filters, setFilters] = React.useState({
+    destination: "",
+    startDate: "",
+    endDate: "",
+    type: "",
+    keywords: "",
+    page: 1,
+  });
+
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name]: value });
+  };
+
+  const handlePageChange = (newPage: any) => {
+    setFilters({ ...filters, page: newPage });
+  };
+
+  const { data: allTrips, isLoading } = useGetAllTripQuery(filters);
+
+  if (isLoading) {
+    <Loading />;
+  }
+
+  console.log(allTrips);
+
   return (
     <div>
       <div className="flex items-center">
@@ -61,9 +90,11 @@ const AllTravelPage = () => {
           </span>
         </h1>
         <div className="mx-auto grid  grid-cols-1 gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 lg:gap-10">
-          <TravelPageCard />
-          <TravelPageCard />
-          <TravelPageCard />
+          {allTrips?.data?.length > 0
+            ? allTrips?.data?.map((trip: any) => (
+                <TravelPageCard key={trip.id} trip={trip} />
+              ))
+            : "No Trips Available"}
         </div>
       </section>
     </div>
