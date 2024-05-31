@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { BsCalendarDate } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6";
@@ -31,6 +32,9 @@ const TravelPageCard = ({ trip }: any) => {
               <BsCalendarDate /> <h3>{trip?.startDate}</h3>
             </div>
           </div>
+          <Link href={`all-travel/${trip?.id}`} className="text-slate-900">
+            View Details
+          </Link>
         </div>
       </div>
     </div>
