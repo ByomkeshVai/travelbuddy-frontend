@@ -15,7 +15,14 @@ const tripApi = baseAPI
         invalidatesTags: ["trips"],
       }),
       getAllTrip: builder.query({
-        query: ({ destination, startDate, endDate, type, keywords, page }) => {
+        query: ({
+          destination,
+          startDate,
+          endDate,
+          type,
+          description,
+          page,
+        }) => {
           const params = new URLSearchParams();
           if (destination) {
             params.append("destination", destination);
@@ -29,12 +36,14 @@ const tripApi = baseAPI
           if (type) {
             params.append("type", type);
           }
-          if (keywords) {
-            params.append("keywords", keywords);
+          if (description) {
+            params.append("description", description);
           }
           if (page) {
             params.append("page", page);
           }
+
+          console.log(params);
           return {
             url: "/trips",
             method: "GET",

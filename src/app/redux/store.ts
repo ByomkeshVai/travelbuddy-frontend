@@ -13,6 +13,7 @@ import storage from "redux-persist/lib/storage";
 
 import { baseAPI } from "./api/baseApi";
 import AuthSlice from "./api/AuthRedux/AuthSlice";
+import TripSlice from "./api/TripRedux/TripSlice";
 
 const persistConfig = {
   key: "auth",
@@ -25,6 +26,7 @@ export const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
     auth: persistedReducer,
+    trip: TripSlice,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({
