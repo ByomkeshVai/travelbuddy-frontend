@@ -43,7 +43,6 @@ const tripApi = baseAPI
             params.append("page", page);
           }
 
-          console.log(params);
           return {
             url: "/trips",
             method: "GET",
@@ -52,7 +51,19 @@ const tripApi = baseAPI
         },
         providesTags: ["trips"],
       }),
+      geSingleTrip: builder.query({
+        query: (tripId) => {
+          console.log(tripId);
+          return {
+            url: `/trips/${tripId}`,
+            method: "GET",
+            params: tripId,
+          };
+        },
+        providesTags: ["trips"],
+      }),
     }),
   });
 
-export const { usePostTripMutation, useGetAllTripQuery } = tripApi;
+export const { usePostTripMutation, useGetAllTripQuery, useGeSingleTripQuery } =
+  tripApi;
