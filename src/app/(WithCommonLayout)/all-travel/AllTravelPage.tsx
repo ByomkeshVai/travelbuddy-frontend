@@ -21,7 +21,7 @@ const AllTravelPage = () => {
     limit: 10,
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -30,7 +30,7 @@ const AllTravelPage = () => {
     }));
   };
 
-  const handlePageChange = (page, pageSize) => {
+  const handlePageChange = (page: any, pageSize: any) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       page,
@@ -109,7 +109,7 @@ const AllTravelPage = () => {
           </span>
         </h1>
         <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {allTrips?.data?.map((trip) => (
+          {allTrips?.data?.map((trip: { id: any; }) => (
             <TravelPageCard key={trip.id} trip={trip} />
           ))}
         </div>
