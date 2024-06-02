@@ -52,14 +52,13 @@ const FBDesignInput = ({
               type={type}
               id={name}
               disabled={disabled}
-              className={`fbdesigninput`}
               max={max}
               min={0}
-              style={{ backgroundColor: backgroundColor }} // Apply background color style
+              style={{ backgroundColor: backgroundColor }}
               onChange={(e) => {
-                field.onChange(e); // Call onChange of react-hook-form
+                field.onChange(e);
                 if (onChange) {
-                  onChange(e); // Call the optional onChange handler
+                  onChange(e);
                 }
               }}
             />
