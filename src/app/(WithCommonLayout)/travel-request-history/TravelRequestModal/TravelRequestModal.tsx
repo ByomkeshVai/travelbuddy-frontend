@@ -9,6 +9,7 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
+import { useUpdateTravelMutation } from "@/app/redux/api/AuthRedux/TravelBuddyRedux/TravelApi";
 
 interface TravelRequestModalProps {
   tripRequest: any;
@@ -27,16 +28,25 @@ const TravelRequestModal: React.FC<TravelRequestModalProps> = ({
 
   const statusType = [
     { key: "APPROVED", label: "APPROVED" },
-    { key: "DECLINED", label: "DECLINED" },
+    { key: "REJECTED", label: "REJECTED" },
     { key: "PENDING", label: "PENDING" },
   ];
 
-  const handleUpdate = () => {
-    console.log({
-      requestId: tripRequest.id,
-      tripId: tripRequest.tripId,
-      status: selectedStatus,
-    });
+  const [updateTravel] = useUpdateTravelMutation();
+
+  const handleUpdate = async () => {
+    try {
+      await updateTravel({
+        buddyId: tripRequest.id,
+        data: {
+          tripId: tripRequest.tripId,
+          status: selectedStatus,
+        },
+      }).unwrap();
+      onOpenChange(false);
+    } catch (error) {
+      console.error("Failed to update travel request:", error);
+    }
   };
 
   return (

@@ -1,7 +1,7 @@
 import { baseAPI } from "../../baseApi";
 
 const tripApi = baseAPI
-  .enhanceEndpoints({ addTagTypes: ["travel"] })
+  .enhanceEndpoints({ addTagTypes: ["travel", "trips"] })
   .injectEndpoints({
     endpoints: (builder) => ({
       createTravel: builder.mutation({
@@ -13,6 +13,14 @@ const tripApi = baseAPI
           };
         },
         invalidatesTags: ["travel"],
+      }),
+      updateTravel: builder.mutation({
+        query: ({ buddyId, data }) => ({
+          url: `/travel/update-trip/${buddyId}/respond`,
+          method: "PUT",
+          body: data,
+        }),
+        invalidatesTags: ["travel", "trips"],
       }),
       //   getAllTrip: builder.query({
       //     query: ({
@@ -65,4 +73,4 @@ const tripApi = baseAPI
     }),
   });
 
-export const { useCreateTravelMutation } = tripApi;
+export const { useCreateTravelMutation, useUpdateTravelMutation } = tripApi;
