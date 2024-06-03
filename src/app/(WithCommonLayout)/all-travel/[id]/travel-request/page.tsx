@@ -5,7 +5,7 @@ import FBForm from "@/app/(WithCommonLayout)/components/Form/FBForm";
 import { getCurrentUser } from "@/app/redux/api/AuthRedux/AuthSlice";
 import { useCreateTravelMutation } from "@/app/redux/api/AuthRedux/TravelBuddyRedux/TravelApi";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hook";
-import { Button } from "@nextui-org/react";
+import { Button, Checkbox } from "@nextui-org/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -84,13 +84,16 @@ const TravelRequest = ({ params }: TProps) => {
             placeholder="Enter notes"
           />
           <div>
-            <input
+            <Checkbox
               type="checkbox"
               {...register("agreement", { required: true })}
-            />
-            <label className="text-slate-50">
-              I agree to the terms and conditions
-            </label>
+              classNames={{
+                label: "text-small",
+              }}
+            >
+              Accept Term and Agreement
+            </Checkbox>
+
             {errors.agreement && (
               <p className="text-red-500">You must agree before submitting.</p>
             )}
