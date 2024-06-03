@@ -86,6 +86,11 @@ export default function NavArea() {
                 <DropdownItem key="post_trip">
                   <Link href="postTravel">Post a Trip</Link>
                 </DropdownItem>
+                <DropdownItem key="travel-request-history">
+                  <Link href="travel-request-history">
+                    Travel Request History
+                  </Link>
+                </DropdownItem>
                 <DropdownItem key="analytics">Analytics</DropdownItem>
                 <DropdownItem key="system">System</DropdownItem>
                 <DropdownItem key="configurations">Configurations</DropdownItem>

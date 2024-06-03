@@ -6,33 +6,51 @@ import { getCurrentUser } from "@/app/redux/api/AuthRedux/AuthSlice";
 import { useCreateTravelMutation } from "@/app/redux/api/AuthRedux/TravelBuddyRedux/TravelApi";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hook";
 import { Button } from "@nextui-org/react";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 type TProps = {
   params: { id: string };
 };
 
-const travelRequest = ({ params }: TProps) => {
+const TravelRequest = ({ params }: TProps) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const user = useAppSelector(getCurrentUser);
   const [createTravel] = useCreateTravelMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastID = toast.loading("Logging In...");
+    if (!data.agreement) {
+      toast.error(
+        "You must agree to the terms and conditions to submit the form."
+      );
+      return;
+    }
+
+    console.log(data);
+    const toastID = toast.loading("Request Sending...");
     try {
       const travelInfo = {
-        travelId: params?.id,
+        tripId: params?.id,
         userId: user?.id,
         notes: data.notes,
       };
 
-      createTravel(travelInfo);
+      await createTravel(travelInfo);
+      console.log(travelInfo);
 
-      toast.success("Logged In", { id: toastID, duration: 2000 });
+      toast.success("Request Sent Successfully", {
+        id: toastID,
+        duration: 2000,
+      });
     } catch (error: any) {
       toast.error(`${error?.data?.message}`, { id: toastID, duration: 2000 });
     }
   };
+
   return (
     <div>
       <h1>Travel Request</h1>
@@ -48,7 +66,7 @@ const travelRequest = ({ params }: TProps) => {
             placeholder="Enter Email"
             disabled
             backgroundColor="#ccc"
-          ></FBDesignInput>
+          />
           <FBDesignInput
             type="email"
             label="Email Address"
@@ -57,15 +75,26 @@ const travelRequest = ({ params }: TProps) => {
             placeholder="Enter email"
             disabled
             backgroundColor="#ccc"
-          ></FBDesignInput>
-
+          />
           <h2 className="text-slate-50">Additional Information</h2>
           <FBDesignInput
             type="text"
             label="notes"
             name="notes"
             placeholder="Enter notes"
-          ></FBDesignInput>
+          />
+          <div>
+            <input
+              type="checkbox"
+              {...register("agreement", { required: true })}
+            />
+            <label className="text-slate-50">
+              I agree to the terms and conditions
+            </label>
+            {errors.agreement && (
+              <p className="text-red-500">You must agree before submitting.</p>
+            )}
+          </div>
         </div>
 
         <Button className="w-full submit-button" type="submit">
@@ -76,4 +105,4 @@ const travelRequest = ({ params }: TProps) => {
   );
 };
 
-export default travelRequest;
+export default TravelRequest;

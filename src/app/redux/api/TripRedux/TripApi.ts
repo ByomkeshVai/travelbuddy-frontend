@@ -62,8 +62,22 @@ const tripApi = baseAPI
         },
         providesTags: ["trips"],
       }),
+      getUserAllTrip: builder.query({
+        query: (userId) => {
+          return {
+            url: `/trips//user-trips/${userId}`,
+            method: "GET",
+            params: userId,
+          };
+        },
+        providesTags: ["trips"],
+      }),
     }),
   });
 
-export const { usePostTripMutation, useGetAllTripQuery, useGeSingleTripQuery } =
-  tripApi;
+export const {
+  usePostTripMutation,
+  useGetAllTripQuery,
+  useGeSingleTripQuery,
+  useGetUserAllTripQuery,
+} = tripApi;

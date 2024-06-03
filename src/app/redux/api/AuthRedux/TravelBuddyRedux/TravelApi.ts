@@ -7,7 +7,7 @@ const tripApi = baseAPI
       createTravel: builder.mutation({
         query: (userInfo) => {
           return {
-            url: "/trip/request",
+            url: "/travel/request",
             method: "POST",
             body: userInfo,
           };
