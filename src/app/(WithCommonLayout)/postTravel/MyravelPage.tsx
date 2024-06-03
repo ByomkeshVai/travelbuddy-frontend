@@ -4,9 +4,38 @@ import { Button } from "@nextui-org/react";
 import { SiTripdotcom } from "react-icons/si";
 import UserTravelCard from "./UserTravelCard";
 import { useRouter } from "next/navigation";
+import { getCurrentUser } from "@/app/redux/api/AuthRedux/AuthSlice";
+import { useAppSelector } from "@/app/redux/hook";
+import { useGetSingleUserAllTripQuery } from "@/app/redux/api/TripRedux/TripApi";
+import Loading from "../components/Loading";
 
 const MyravelPage = () => {
   const router = useRouter();
+
+  const user = useAppSelector(getCurrentUser);
+
+  const {
+    data: userTrips,
+    isLoading,
+    isFetching,
+    error,
+  } = useGetSingleUserAllTripQuery(user?.id);
+
+  if (isLoading) {
+    <Loading />;
+  }
+
+  if (isLoading || isFetching) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <div>Error loading data</div>;
+  }
+
+  if (!userTrips || userTrips.data.length === 0) {
+    return <div>No data available</div>;
+  }
   return (
     <div>
       <div className="flex  items-center justify-end">
@@ -42,9 +71,9 @@ const MyravelPage = () => {
           </span>
         </h1>
         <div className="mx-auto grid  grid-cols-1 gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 lg:gap-10">
-          <UserTravelCard />
-          <UserTravelCard />
-          <UserTravelCard />
+          {userTrips.data.map((params: any) => (
+            <UserTravelCard key={params.id} params={params} />
+          ))}
         </div>
       </section>
     </div>

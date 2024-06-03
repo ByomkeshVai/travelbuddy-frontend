@@ -65,7 +65,18 @@ const tripApi = baseAPI
       getUserAllTrip: builder.query({
         query: (userId) => {
           return {
-            url: `/trips//user-trips/${userId}`,
+            url: `/trips/user-trips/${userId}`,
+            method: "GET",
+            params: userId,
+          };
+        },
+        providesTags: ["trips"],
+      }),
+
+      getSingleUserAllTrip: builder.query({
+        query: (userId) => {
+          return {
+            url: `/trips/all-trips/${userId}`,
             method: "GET",
             params: userId,
           };
@@ -80,4 +91,5 @@ export const {
   useGetAllTripQuery,
   useGeSingleTripQuery,
   useGetUserAllTripQuery,
+  useGetSingleUserAllTripQuery,
 } = tripApi;
