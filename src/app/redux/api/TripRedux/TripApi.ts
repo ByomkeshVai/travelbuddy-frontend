@@ -53,7 +53,6 @@ const tripApi = baseAPI
       }),
       geSingleTrip: builder.query({
         query: (tripId) => {
-          console.log(tripId);
           return {
             url: `/trips/${tripId}`,
             method: "GET",
@@ -86,9 +85,19 @@ const tripApi = baseAPI
 
       deleteSingleUserAllTrip: builder.mutation({
         query: (tripId) => ({
-          url: `/delete/${tripId}`,
+          url: `/trips/delete/${tripId}`,
           method: "DELETE",
         }),
+        invalidatesTags: ["trips"],
+      }),
+      updateTrip: builder.mutation({
+        query: ({ tripId, payload }) => {
+          return {
+            url: `/trips/update/${tripId}`,
+            method: "PUT",
+            body: payload,
+          };
+        },
         invalidatesTags: ["trips"],
       }),
     }),
@@ -101,4 +110,5 @@ export const {
   useGetUserAllTripQuery,
   useGetSingleUserAllTripQuery,
   useDeleteSingleUserAllTripMutation,
+  useUpdateTripMutation,
 } = tripApi;

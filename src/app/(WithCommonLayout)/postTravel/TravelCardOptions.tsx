@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   ModalContent,
@@ -12,6 +12,8 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useDeleteSingleUserAllTripMutation } from "@/app/redux/api/TripRedux/TripApi";
+import { toast } from "sonner";
+import TravelCardUpdate from "./TravelCardUpdate";
 
 interface TravelOptionModalProps {
   params: string;
@@ -26,13 +28,18 @@ const TravelCardOptions: React.FC<TravelOptionModalProps> = ({
 }) => {
   const [deleteTrip] = useDeleteSingleUserAllTripMutation();
 
+  const [isModalOpen1, setIsModalOpen1] = React.useState(false);
+
+  const handleOpenModal1 = () => setIsModalOpen1(true);
+  const handleCloseModal1 = () => setIsModalOpen1(false);
+
   const handleTripDelete = async (tripId: string) => {
     try {
       await deleteTrip(tripId).unwrap();
-      console.log("Trip deleted successfully");
+      toast.success("Trip deleted successfully");
       onOpenChange(false);
-    } catch (error) {
-      console.error("Failed to delete the trip: ", error);
+    } catch (error: any) {
+      toast.success("Failed to delete the trip: ", error);
     }
   };
 
@@ -47,7 +54,19 @@ const TravelCardOptions: React.FC<TravelOptionModalProps> = ({
                 {" "}
                 <Link href={`/all-travel/${params}`}>View Trip</Link>{" "}
               </Button>
-              <Button color="primary">Update</Button>
+
+              <Button
+                className="flex items-center justify-between"
+                onPress={handleOpenModal1}
+              >
+                Update
+              </Button>
+              <TravelCardUpdate
+                params={params}
+                isOpen1={isModalOpen1}
+                onOpenChange1={setIsModalOpen1}
+                onOpenChange={onOpenChange}
+              />
               <Button color="primary" onClick={() => handleTripDelete(params)}>
                 Delete
               </Button>
