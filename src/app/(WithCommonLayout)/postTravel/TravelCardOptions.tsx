@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import {
   Modal,
@@ -10,6 +11,7 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import Link from "next/link";
+import { useDeleteSingleUserAllTripMutation } from "@/app/redux/api/TripRedux/TripApi";
 
 interface TravelOptionModalProps {
   params: string;
@@ -22,7 +24,18 @@ const TravelCardOptions: React.FC<TravelOptionModalProps> = ({
   isOpen,
   onOpenChange,
 }) => {
-  console.log(params);
+  const [deleteTrip] = useDeleteSingleUserAllTripMutation();
+
+  const handleTripDelete = async (tripId: string) => {
+    try {
+      await deleteTrip(tripId).unwrap();
+      console.log("Trip deleted successfully");
+      onOpenChange(false);
+    } catch (error) {
+      console.error("Failed to delete the trip: ", error);
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
       <ModalContent>
@@ -35,7 +48,9 @@ const TravelCardOptions: React.FC<TravelOptionModalProps> = ({
                 <Link href={`/all-travel/${params}`}>View Trip</Link>{" "}
               </Button>
               <Button color="primary">Update</Button>
-              <Button color="primary">Delete</Button>
+              <Button color="primary" onClick={() => handleTripDelete(params)}>
+                Delete
+              </Button>
             </div>
           </ModalBody>
           <ModalFooter>
@@ -54,3 +69,6 @@ const TravelCardOptions: React.FC<TravelOptionModalProps> = ({
 };
 
 export default TravelCardOptions;
+function tripDelete(data: string) {
+  throw new Error("Function not implemented.");
+}

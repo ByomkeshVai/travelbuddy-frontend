@@ -83,6 +83,14 @@ const tripApi = baseAPI
         },
         providesTags: ["trips"],
       }),
+
+      deleteSingleUserAllTrip: builder.mutation({
+        query: (tripId) => ({
+          url: `/delete/${tripId}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["trips"],
+      }),
     }),
   });
 
@@ -92,4 +100,5 @@ export const {
   useGeSingleTripQuery,
   useGetUserAllTripQuery,
   useGetSingleUserAllTripQuery,
+  useDeleteSingleUserAllTripMutation,
 } = tripApi;
