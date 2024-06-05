@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useDeleteSingleUserAllTripMutation } from "@/app/redux/api/TripRedux/TripApi";
 import { toast } from "sonner";
 import TravelCardUpdate from "./TravelCardUpdate";
+import Swal from "sweetalert2";
 
 interface TravelOptionModalProps {
   params: string;
@@ -34,12 +35,23 @@ const TravelCardOptions: React.FC<TravelOptionModalProps> = ({
   const handleCloseModal1 = () => setIsModalOpen1(false);
 
   const handleTripDelete = async (tripId: string) => {
-    try {
-      await deleteTrip(tripId).unwrap();
-      toast.success("Trip deleted successfully");
-      onOpenChange(false);
-    } catch (error: any) {
-      toast.success("Failed to delete the trip: ", error);
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteTrip(tripId).unwrap();
+        Swal.fire("Deleted!", "Your trip has been deleted.", "success");
+      } catch (error) {
+        Swal.fire("Failed!", "There was a problem deleting the trip.", "error");
+      }
     }
   };
 

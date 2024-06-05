@@ -51,6 +51,15 @@ const tripApi = baseAPI
         },
         providesTags: ["trips"],
       }),
+      getAllTrips: builder.query({
+        query: () => {
+          return {
+            url: `/trips/all`,
+            method: "GET",
+          };
+        },
+        providesTags: ["trips"],
+      }),
       geSingleTrip: builder.query({
         query: (tripId) => {
           return {
@@ -61,6 +70,7 @@ const tripApi = baseAPI
         },
         providesTags: ["trips"],
       }),
+
       getUserAllTrip: builder.query({
         query: (userId) => {
           return {
@@ -111,4 +121,5 @@ export const {
   useGetSingleUserAllTripQuery,
   useDeleteSingleUserAllTripMutation,
   useUpdateTripMutation,
+  useGetAllTripsQuery,
 } = tripApi;

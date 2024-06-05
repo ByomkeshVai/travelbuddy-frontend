@@ -20,6 +20,24 @@ const authApi = baseAPI.injectEndpoints({
         };
       },
     }),
+    updateStatus: builder.mutation({
+      query: ({ userId, status }) => {
+        return {
+          url: `/auth/status/${userId}`,
+          method: "POST",
+          body: status,
+        };
+      },
+    }),
+    updateRole: builder.mutation({
+      query: ({ userId, role }) => {
+        return {
+          url: `/auth/role/${userId}`,
+          method: "POST",
+          body: role,
+        };
+      },
+    }),
     SingleUser: builder.query({
       query: (id) => {
         return {
@@ -28,8 +46,22 @@ const authApi = baseAPI.injectEndpoints({
         };
       },
     }),
+    AllUser: builder.query({
+      query: () => {
+        return {
+          url: `/auth`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useSingleUserQuery } =
-  authApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useSingleUserQuery,
+  useAllUserQuery,
+  useUpdateStatusMutation,
+  useUpdateRoleMutation,
+} = authApi;

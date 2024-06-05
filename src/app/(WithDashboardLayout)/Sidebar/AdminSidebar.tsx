@@ -1,7 +1,7 @@
 import { SidebarItem } from "./SidebarItem";
 import { SidebarMenu } from "./SidebarMenu";
 import { Sidebar } from "./Sidebar.Style";
-import { Car, Cog, Home, Torus, User } from "lucide-react";
+import { Car, Cog, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSidebarContext } from "../Layout/LayoutContext";
@@ -22,23 +22,16 @@ export const AdminSidebarWrapper = () => {
         <div className={Sidebar.Header()}>
           {" "}
           <Link className="flex" href="/">
-            <Cog />
-            <p className="font-bold text-inherit px-4">APOLLO GEARS</p>
+            <p className="font-bold text-inherit px-4">Travel Buddy</p>
           </Link>
         </div>
         <div className="flex flex-col justify-between h-full">
           <div className={Sidebar.Body()}>
-            <SidebarItem
-              isActive={pathname === "/Dashboard/admin/trip-management"}
-              title="cars manage"
-              icon={<Home />}
-              href="/Dashboard/admin/trip-management"
-            />
             <SidebarMenu title="Main Menu">
               <SidebarItem
                 isActive={pathname === "/Dashboard/admin/trip-management"}
                 title="tour manage"
-                icon={<Torus />}
+                icon={<Car />}
                 href="/Dashboard/admin/trip-management"
               />
               <SidebarItem
