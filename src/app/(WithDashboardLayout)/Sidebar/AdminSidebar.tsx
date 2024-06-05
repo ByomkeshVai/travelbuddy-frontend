@@ -1,14 +1,11 @@
-import { Avatar, Tooltip } from "@nextui-org/react";
-import { CollapseItems } from "./CollapseItem";
 import { SidebarItem } from "./SidebarItem";
 import { SidebarMenu } from "./SidebarMenu";
 import { Sidebar } from "./Sidebar.Style";
-
-import { Car, Cog, Home, User } from "lucide-react";
-
+import { Car, Cog, Home, Torus, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSidebarContext } from "../Layout/LayoutContext";
+import { CollapseItems } from "./CollapseItem";
 
 export const AdminSidebarWrapper = () => {
   const pathname = usePathname();
@@ -32,23 +29,23 @@ export const AdminSidebarWrapper = () => {
         <div className="flex flex-col justify-between h-full">
           <div className={Sidebar.Body()}>
             <SidebarItem
-              title="Home"
+              isActive={pathname === "/Dashboard/admin/trip-management"}
+              title="cars manage"
               icon={<Home />}
-              isActive={pathname === "/dashboard/admin"}
-              href="/dashboard/admin"
+              href="/Dashboard/admin/trip-management"
             />
             <SidebarMenu title="Main Menu">
               <SidebarItem
-                isActive={pathname === "/dashboard/admin/trip-management"}
-                title="cars manage"
-                icon={<Car />}
-                href="/dashboard/admin/trip-management"
+                isActive={pathname === "/Dashboard/admin/trip-management"}
+                title="tour manage"
+                icon={<Torus />}
+                href="/Dashboard/admin/trip-management"
               />
               <SidebarItem
-                isActive={pathname === "/dashboard/admin/users-management"}
+                isActive={pathname === "/Dashboard/admin/users-management"}
                 title="users manage"
                 icon={<User />}
-                href="/dashboard/admin/users-management"
+                href="/Dashboard/admin/users-management"
               />
             </SidebarMenu>
           </div>

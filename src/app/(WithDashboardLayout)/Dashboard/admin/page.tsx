@@ -1,7 +1,7 @@
 import React from "react";
 
-const AdminPage = () => {
-  return <div>AdminPage</div>;
+const AdminPage = ({ children }: { children: React.ReactNode }) => {
+  return <div>{children}</div>;
 };
 
 export default AdminPage;
