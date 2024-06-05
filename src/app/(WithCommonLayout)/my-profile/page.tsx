@@ -6,13 +6,18 @@ import { getCurrentUser } from "@/app/redux/api/AuthRedux/AuthSlice";
 import { useAppSelector } from "@/app/redux/hook";
 import Loading from "../components/Loading";
 import { Button } from "@nextui-org/react";
+import ChangePasswordModal from "./ChangePasswordModal";
+import React from "react";
 
 const page = () => {
   const user = useAppSelector(getCurrentUser);
 
   const { data: getUser, isLoading } = useSingleUserQuery({ userId: user?.id });
 
-  console.log(getUser);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   if (isLoading) {
     <Loading />;
@@ -29,8 +34,14 @@ const page = () => {
           </p>
         </div>
         <div>
-          <Button>Change Password</Button>
+          <Button onClick={() => handleOpenModal()}>Change Password</Button>
         </div>
+
+        <ChangePasswordModal
+          userId={getUser?.data?.id}
+          isOpen={isModalOpen}
+          onOpenChange={setIsModalOpen}
+        />
       </div>
       <div className="mt-6 border-t border-slate-50">
         <dl className="divide-y divide-slate-50">

@@ -38,6 +38,16 @@ const authApi = baseAPI.injectEndpoints({
         };
       },
     }),
+    updatePassword: builder.mutation({
+      query: ({ userId, payload }) => {
+        console.log(payload);
+        return {
+          url: `/auth/changePassword/${userId}`,
+          method: "PUT",
+          body: payload,
+        };
+      },
+    }),
     SingleUser: builder.query({
       query: ({ userId }) => {
         return {
@@ -64,4 +74,5 @@ export const {
   useAllUserQuery,
   useUpdateStatusMutation,
   useUpdateRoleMutation,
+  useUpdatePasswordMutation,
 } = authApi;

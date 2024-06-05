@@ -40,19 +40,22 @@ export default function NavArea() {
             className="sm:hidden"
           />
           <NavbarBrand>
-            <AcmeLogo />
-            <p className="font-bold text-inherit">ACME</p>
+            <p className="font-bold text-inherit">
+              <Link color="foreground" href="/">
+                <AcmeLogo />
+              </Link>
+            </p>
           </NavbarBrand>
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4 " justify="center">
           <NavbarItem>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/">
               Home
             </Link>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link href="#" aria-current="page">
+            <Link href="about-us" aria-href="about-us">
               About Us
             </Link>
           </NavbarItem>
@@ -115,7 +118,7 @@ export default function NavArea() {
         ) : (
           <NavbarContent justify="end">
             <NavbarItem>
-              <Button color="primary" href="#" variant="flat">
+              <Button color="primary" href="/login" variant="flat">
                 <Link href="/login">Login / Sign Up</Link>
               </Button>
             </NavbarItem>
