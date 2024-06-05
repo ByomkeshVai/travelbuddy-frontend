@@ -4,6 +4,7 @@ import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { userInfo } from "os";
 import Providers from "./lib/Providers";
+import Footer from "./components/pages/shared/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
             <AntdRegistry>{children}</AntdRegistry>
           </div>
         </Providers>
+        <Footer />
       </body>
     </html>
   );

@@ -1,3 +1,4 @@
+import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -27,14 +28,16 @@ const TravelPageCard = ({ trip }: any) => {
           <p className="text-md font-light text-gray-400">
             {trip?.description}
           </p>
-          <div className="justify-starts mt-4 flex flex-wrap items-center">
+          <div className="justify-between mt-4 flex flex-wrap items-center">
             <div className="mr-2 mt-1 rounded-2xl bg-blue-100 py-1.5 px-4 text-xs text-gray-600 flex items-center gap-2">
               <BsCalendarDate /> <h3>{trip?.startDate}</h3>
             </div>
+            <Button color="primary">
+              <Link href={`all-travel/${trip?.id}`} className="text-slate-900">
+                <h3 className="text-slate-50 font-bold">View Details</h3>
+              </Link>
+            </Button>
           </div>
-          <Link href={`all-travel/${trip?.id}`} className="text-slate-900">
-            View Details
-          </Link>
         </div>
       </div>
     </div>

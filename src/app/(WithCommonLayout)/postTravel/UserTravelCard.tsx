@@ -12,7 +12,10 @@ const UserTravelCard = ({ params }: any) => {
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <div className="h-90 col-span-1 m-auto min-h-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:scale-105 ">
+    <div
+      className="h-90 col-span-1 m-auto min-h-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:scale-105 "
+      onClick={() => handleOpenModal()}
+    >
       <div className="block h-full w-full">
         <div className="w-full bg-white p-4">
           <p className="text-md font-medium text-indigo-500 flex items-center gap-1">
@@ -38,12 +41,7 @@ const UserTravelCard = ({ params }: any) => {
               <BsCalendarDate /> <h3> {params?.startDate}</h3>
             </div>
           </div>
-          <Button
-            className="flex items-center justify-between"
-            onPress={handleOpenModal}
-          >
-            Action
-          </Button>
+
           <TravelCardOptions
             params={params.id}
             isOpen={isModalOpen}

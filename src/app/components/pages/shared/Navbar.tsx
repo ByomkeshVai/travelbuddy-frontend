@@ -48,18 +48,23 @@ export default function NavArea() {
         <NavbarContent className="hidden sm:flex gap-4 " justify="center">
           <NavbarItem>
             <Link color="foreground" href="#">
-              Features
+              Home
             </Link>
           </NavbarItem>
           <NavbarItem isActive>
             <Link href="#" aria-current="page">
-              Customers
+              About Us
             </Link>
           </NavbarItem>
+
           <NavbarItem>
-            <Link color="foreground" href="#">
-              Integrations
-            </Link>
+            {user?.role == "user" ? (
+              <Link color="foreground" href="my-profile">
+                My Profile
+              </Link>
+            ) : (
+              ""
+            )}
           </NavbarItem>
         </NavbarContent>
 
@@ -82,21 +87,21 @@ export default function NavArea() {
                   <p className="font-semibold">Signed in as</p>
                   <p className="font-semibold">{user.email}</p>
                 </DropdownItem>
-                <DropdownItem key="settings">My Settings</DropdownItem>
+                <DropdownItem key="my-profile">
+                  <Link href="my-profile">My Profile</Link>
+                </DropdownItem>
                 <DropdownItem key="post_trip">
-                  <Link href="postTravel">Post a Trip</Link>
+                  <Link href="postTravel">My Trips</Link>
+                </DropdownItem>
+                <DropdownItem key="travel-post-page">
+                  <Link href="travel-post-page">Post a Trip</Link>
                 </DropdownItem>
                 <DropdownItem key="travel-request-history">
                   <Link href="travel-request-history">
                     Travel Request History
                   </Link>
                 </DropdownItem>
-                <DropdownItem key="analytics">Analytics</DropdownItem>
-                <DropdownItem key="system">System</DropdownItem>
-                <DropdownItem key="configurations">Configurations</DropdownItem>
-                <DropdownItem key="help_and_feedback">
-                  Help & Feedback
-                </DropdownItem>
+
                 <DropdownItem
                   key="logout"
                   color="danger"

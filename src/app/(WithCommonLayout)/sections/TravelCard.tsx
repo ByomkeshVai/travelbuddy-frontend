@@ -1,6 +1,44 @@
-import SingleTravelCard from "./SingleTravelCard";
+"use client";
+
+import { useGetAllTripQuery } from "@/app/redux/api/TripRedux/TripApi";
+import TravelPageCard from "../all-travel/TravelPageCard";
+import Loading from "../components/Loading";
+import React from "react";
 
 const TravelCard = () => {
+  const [filters, setFilters] = React.useState({
+    destination: "",
+    startDate: "",
+    endDate: "",
+    type: "",
+    description: "",
+    page: 1,
+    limit: 10,
+  });
+
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+      page: 1,
+    }));
+  };
+
+  const handlePageChange = (page: any, pageSize: any) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      page,
+      limit: pageSize,
+    }));
+  };
+
+  const { data: allTrips, isLoading } = useGetAllTripQuery(filters);
+
+  if (isLoading) {
+    <Loading />;
+  }
+
   return (
     <section className="pb-20">
       <h1 className="mb-12 text-center font-sans text-5xl font-bold">
@@ -26,9 +64,9 @@ const TravelCard = () => {
         </span>
       </h1>
       <div className="mx-auto grid  grid-cols-1 gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 lg:gap-10">
-        <SingleTravelCard />
-        <SingleTravelCard />
-        <SingleTravelCard />
+        {allTrips?.data?.map((trip: { id: any }) => (
+          <TravelPageCard key={trip.id} trip={trip} />
+        ))}
       </div>
     </section>
   );

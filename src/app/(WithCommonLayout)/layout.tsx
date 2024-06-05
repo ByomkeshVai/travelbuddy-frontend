@@ -18,7 +18,6 @@ export default async function RootLayout({
     <div>
       <NavArea />
       <div>{children}</div>
-      <Footer />
     </div>
   );
 }
