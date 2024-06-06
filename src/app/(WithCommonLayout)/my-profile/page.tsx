@@ -7,10 +7,23 @@ import { useAppSelector } from "@/app/redux/hook";
 import Loading from "../components/Loading";
 import { Button } from "@nextui-org/react";
 import ChangePasswordModal from "./ChangePasswordModal";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const user = useAppSelector(getCurrentUser);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, router]);
+
+  if (!user) {
+    return null;
+  }
 
   const { data: getUser, isLoading } = useSingleUserQuery({ userId: user?.id });
 

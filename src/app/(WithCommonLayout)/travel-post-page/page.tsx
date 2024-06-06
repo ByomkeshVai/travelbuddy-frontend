@@ -1,6 +1,10 @@
 import { Metadata } from "next";
 import React from "react";
 import TravelPostForm from "./travelPostForm";
+import { useAppSelector } from "@/app/redux/hook";
+import { getCurrentUser } from "@/app/redux/api/AuthRedux/AuthSlice";
+import { redirect } from "next/navigation";
+import { store } from "@/app/redux/store";
 
 export const metadata: Metadata = {
   title: "Travel Post Page",
@@ -12,7 +16,6 @@ export default async function PostTravelForm({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //   const user = await userInfo();
   return (
     <main>
       <TravelPostForm />

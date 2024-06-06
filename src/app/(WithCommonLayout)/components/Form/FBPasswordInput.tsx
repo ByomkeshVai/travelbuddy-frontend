@@ -25,7 +25,7 @@ const FBInputPassword = ({
           <Form.Item
             label={
               <label
-                className={` ${
+                className={`text-slate-50 ${
                   error ? "text-[#F00]" : "text-black-softlight"
                 } text-[12px] font-semibold`}
               >

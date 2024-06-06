@@ -36,7 +36,7 @@ const FBDesignInput = ({
             label={
               label ? (
                 <label
-                  className={` ${
+                  className={`text-slate-50 ${
                     error ? "text-[#0054B4]" : "text-[#6F6464]"
                   } text-[14px] font-semibold flex gap-1 items-center`}
                 >
@@ -47,6 +47,7 @@ const FBDesignInput = ({
           >
             <Input
               {...field}
+              className="p-3 w-full"
               placeholder={placeholder}
               defaultValue={defaultValue}
               type={type}

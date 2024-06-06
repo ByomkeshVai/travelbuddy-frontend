@@ -14,9 +14,6 @@ const TravelPageCard = ({ trip }: any) => {
             <FaLocationDot />
             {trip?.destination}
           </p>
-          <p className="mb-2 text-xl font-medium text-gray-800">
-            Getting to know the Ice Factory Pattern
-          </p>
           <Image
             src={trip?.photos[0]}
             width={300}

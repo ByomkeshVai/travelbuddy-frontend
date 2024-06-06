@@ -44,7 +44,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div>
+    <div className="mb-10">
       <FBForm onSubmit={onSubmit}>
         <FBDesignInput
           type="email"
@@ -64,7 +64,7 @@ export default function LoginForm() {
         </Button>
       </FBForm>
       <p className="text-center mt-5 fontWeight-semiboald text-14">
-        Don’t have an account?
+        Don’t have an account?{" "}
         <Link href="/register">
           <span className="text-blue-primary">Sign up</span>
         </Link>

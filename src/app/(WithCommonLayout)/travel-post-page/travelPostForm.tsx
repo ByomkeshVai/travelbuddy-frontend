@@ -1,11 +1,28 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useAppSelector } from "@/app/redux/hook";
+import { getCurrentUser } from "@/app/redux/api/AuthRedux/AuthSlice";
 import Image from "next/image";
 import { uploadToImgBB } from "@/app/utils/uploadPhoto";
 import { toast } from "sonner";
 import { usePostTripMutation } from "@/app/redux/api/TripRedux/TripApi";
+import { useRouter } from "next/navigation";
 
 const TravelPostForm = () => {
+  const router = useRouter();
+  const user = useAppSelector(getCurrentUser);
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, router]);
+
+  if (!user) {
+    return null;
+  }
   const [fileInputs, setFileInputs] = React.useState([{ id: Date.now() }]);
   const [destination, setDestination] = React.useState("");
   const [startDate, setStartDate] = React.useState("");

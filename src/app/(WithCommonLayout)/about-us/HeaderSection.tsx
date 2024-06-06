@@ -23,21 +23,21 @@ const HeaderSection = () => {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-              Work with us
+              Mission Statement
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-              lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-              fugiat aliqua.
+              Find The Travel Buddy Near You, Post Trip, Find Trip, Manage Trip
+              and more
             </p>
           </div>
           <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
               <a href="#">
-                Open roles <span aria-hidden="true">&rarr;</span>
+                Travel Request <span aria-hidden="true">&rarr;</span>
               </a>
               <a href="#">
-                Internship program <span aria-hidden="true">&rarr;</span>
+                Travel Buddy Finding Best Platform{" "}
+                <span aria-hidden="true">&rarr;</span>
               </a>
               <a href="#">
                 Our values <span aria-hidden="true">&rarr;</span>
@@ -57,7 +57,7 @@ const HeaderSection = () => {
               </div>
               <div className="flex flex-col-reverse">
                 <dt className="text-base leading-7 text-gray-300">
-                  Full-time colleagues
+                  Trip Count
                 </dt>
                 <dd className="text-2xl font-bold leading-9 tracking-tight text-white">
                   300+
@@ -65,7 +65,7 @@ const HeaderSection = () => {
               </div>
               <div className="flex flex-col-reverse">
                 <dt className="text-base leading-7 text-gray-300">
-                  Hours per week
+                  Users Per Hours
                 </dt>
                 <dd className="text-2xl font-bold leading-9 tracking-tight text-white">
                   40
@@ -73,7 +73,7 @@ const HeaderSection = () => {
               </div>
               <div className="flex flex-col-reverse">
                 <dt className="text-base leading-7 text-gray-300">
-                  Paid time off
+                  Travel Request Limit
                 </dt>
                 <dd className="text-2xl font-bold leading-9 tracking-tight text-white">
                   Unlimited

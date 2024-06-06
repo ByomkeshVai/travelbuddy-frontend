@@ -55,11 +55,10 @@ const RegistrationPage = () => {
     }
   };
   return (
-    <div className=" mt-24 flex justify-center items-center">
-      <Card className="max-w-screen-lg ">
+    <div className="py-24 flex justify-center items-center">
+      <Card className="max-w-screen-xl ">
         <CardHeader className="flex justify-center">
           <div className="flex">
-            <Cog />
             <p className="font-bold text-inherit px-4">Register</p>
           </div>
         </CardHeader>
@@ -73,7 +72,7 @@ const RegistrationPage = () => {
             ></FBDesignInput>
             <FBDesignInput
               type="email"
-              label="Business email"
+              label="email"
               name="email"
               placeholder="Enter email"
             ></FBDesignInput>
@@ -92,12 +91,12 @@ const RegistrationPage = () => {
             {error && <p className="text-red-500 relative -top-6">{error}</p>}
 
             <Button className="w-full submit-button" htmlType="submit">
-              SignUp
+              Sign Up
             </Button>
           </FBForm>
 
           <p className="text-center mt-4 fontWeight-semiboald text-14">
-            have an account?
+            Already have an account?
             <Link href="/login">
               <span className="text-blue-primary"> Login</span>
             </Link>
