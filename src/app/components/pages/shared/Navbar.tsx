@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import {
   Navbar,
@@ -20,17 +21,21 @@ import {
 import { AcmeLogo } from "./AcmeLogo";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hook";
 import { getCurrentUser, logout } from "@/app/redux/api/AuthRedux/AuthSlice";
+import { useRouter } from "next/navigation";
 
 export default function NavArea() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(getCurrentUser);
+  const router = useRouter();
+
   const handleLogout = () => {
     dispatch(logout());
   };
 
   const menuItems = ["Features", "Customers", "Int", "Log Out"];
+
   return (
     <div className="">
       <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full">
@@ -49,29 +54,24 @@ export default function NavArea() {
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4 " justify="center">
-          <NavbarItem>
+          <NavbarItem isActive={router.pathname === "/"}>
             <Link color="foreground" href="/">
               Home
             </Link>
           </NavbarItem>
-          <NavbarItem isActive>
-            <Link href="about-us" aria-href="about-us">
-              About Us
-            </Link>
+          <NavbarItem isActive={router.pathname === "/about-us"}>
+            <Link href="about-us">About Us</Link>
           </NavbarItem>
-
-          <NavbarItem>
-            {user?.role == "user" ? (
+          <NavbarItem isActive={router.pathname === "/my-profile"}>
+            {user?.role === "user" && (
               <Link color="foreground" href="my-profile">
                 My Profile
               </Link>
-            ) : (
-              ""
             )}
           </NavbarItem>
         </NavbarContent>
 
-        {user?.role == "user" ? (
+        {user?.role === "user" ? (
           <NavbarContent as="div" justify="end">
             <Dropdown placement="bottom-end">
               <DropdownTrigger>

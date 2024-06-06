@@ -5,6 +5,8 @@ import NavArea from "../components/pages/shared/Navbar";
 import Hero from "./sections/Hero";
 import TravelCard from "./sections/TravelCard";
 import AllTravelPage from "./all-travel/AllTravelPage";
+import Guide from "../components/pages/shared/Guide";
+import TravelTips from "../components/pages/shared/TravelTips";
 
 export const metadata: Metadata = {
   title: "Travel Buddy",
@@ -21,6 +23,8 @@ export default async function Home({
     <main>
       <Hero />
       <AllTravelPage />
+      <TravelTips />
+      <Guide />
       {/* <TravelCard /> */}
     </main>
   );
