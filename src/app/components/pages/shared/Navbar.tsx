@@ -21,14 +21,12 @@ import {
 import { AcmeLogo } from "./AcmeLogo";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hook";
 import { getCurrentUser, logout } from "@/app/redux/api/AuthRedux/AuthSlice";
-import { useRouter } from "next/navigation";
 
 export default function NavArea() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(getCurrentUser);
-  const router = useRouter();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -54,15 +52,15 @@ export default function NavArea() {
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4 " justify="center">
-          <NavbarItem isActive={router.pathname === "/"}>
+          <NavbarItem>
             <Link color="foreground" href="/">
               Home
             </Link>
           </NavbarItem>
-          <NavbarItem isActive={router.pathname === "/about-us"}>
+          <NavbarItem>
             <Link href="about-us">About Us</Link>
           </NavbarItem>
-          <NavbarItem isActive={router.pathname === "/my-profile"}>
+          <NavbarItem>
             {user?.role === "user" && (
               <Link color="foreground" href="my-profile">
                 My Profile

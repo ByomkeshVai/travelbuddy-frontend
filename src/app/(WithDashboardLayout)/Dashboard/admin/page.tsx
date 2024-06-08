@@ -1,6 +1,6 @@
 import React from "react";
 
-const AdminPage = ({ children }: { children: React.ReactNode }) => {
+const AdminPage = ({ children }: any) => {
   return <div>{children}</div>;
 };
 

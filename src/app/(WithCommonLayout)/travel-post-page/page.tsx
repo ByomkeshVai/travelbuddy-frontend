@@ -11,11 +11,7 @@ export const metadata: Metadata = {
   description: "Book your next adventure Travel Buddy",
 };
 
-export default async function PostTravelForm({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function PostTravelForm() {
   return (
     <main>
       <TravelPostForm />

@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { tagTypes } from "../tag-type";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `http://localhost:8000/api`,
+  baseUrl: `https://travelbuddy2.vercel.app/api`,
 
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {

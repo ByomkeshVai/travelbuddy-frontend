@@ -13,19 +13,13 @@ export const metadata: Metadata = {
   description: "Book your next adventure Travel Buddy",
 };
 
-export default async function Home({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  //   const user = await userInfo();
+export default async function Home() {
   return (
     <main>
       <Hero />
       <AllTravelPage />
       <TravelTips />
       <Guide />
-      {/* <TravelCard /> */}
     </main>
   );
 }
